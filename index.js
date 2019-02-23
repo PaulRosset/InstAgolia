@@ -31,6 +31,7 @@ module.exports = async (req, res) => {
   const index = client.initIndex(configFromBody.index || config.algolia.index);
   const targetAccount =
     configFromBody.targetAccount || config.instaScraper.targetAccount;
+  send(res, 200, "Request received, we are now processing...!");
   const child = spawn("instagram-scraper", [
     targetAccount,
     "-u",
@@ -45,7 +46,7 @@ module.exports = async (req, res) => {
 
   child.on("exit", (_, signal) => {
     if (signal !== null) {
-      return send(res, 400, { message: "error", reason: signal });
+      return signal;
     }
     // everything went good during the scraping of instagram data :)
     const stream = fs.createReadStream(
@@ -105,14 +106,13 @@ module.exports = async (req, res) => {
             index.deleteObjects(
               postIdFromAlgolia.filter(x => !postIdFromSource.includes(x)),
               function(err, content) {
-                if (err) return send(res, 400, err);
+                if (err) throw err;
 
                 console.warn("DELETED IDS:", content.objectID);
                 console.warn("END PROCESSING, EXITING");
               }
             );
             this.emit("end");
-            return send(res, 200, "Request processed!");
           }
         )
       );
