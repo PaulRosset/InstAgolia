@@ -43,9 +43,10 @@ A bunch of env variables have to be provided in order to work:
   - _default: 3000_
 
 - `ALGOLIA_APPID`
-- The appID, this is your unique application identifier.
-- _required_
-- **Init time variable**.
+
+  - The appID, this is your unique application identifier.
+  - _required_
+  - **Init time variable**.
 
 - `ALGOLIA_ADMIN_KEY`
 
