@@ -33,6 +33,10 @@ But it works best with the Dockerfile at the root of the project, like this in w
 - Launch container
   `docker run -d -p 3000:3000 instagolia:1.0`
 
+Finally, to trigger the pipeline, you need to hit the HTTP server at the desired endpoint:
+
+- `curl -X POST --data {} https://yoururl.com/`
+
 ## A little bit of configuration
 
 A bunch of env variables have to be provided in order to work:
